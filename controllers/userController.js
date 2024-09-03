@@ -22,7 +22,7 @@ module.exports = {
       res.status(500).json(err);
     }
   },
-  // create a new user
+  // create a new user (the two fields required are username and email)
   async createUser(req, res) {
     try {
       const dbUserData = await User.create(req.body);
