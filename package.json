@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "dependencies": {
+    "dayjs": "^1.11.13",
     "express": "^4.19.2",
     "mongoose": "^8.6.0",
     "node.js": "^0.0.1-security",

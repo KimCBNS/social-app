@@ -31,4 +31,24 @@ module.exports = {
       res.status(500).json(err);
     }
   },
+
+  async addFriend(req, res) {
+    try {
+      const dbUserData = await User.findOneAndUpdate(
+        {
+          _id: req.params.userId,
+        },
+        {
+          $addToSet:{friends:req.params.friendId}
+        },
+        {
+          new:true
+        }
+      )
+      res.json(dbUserData);
+    } catch (err) {
+      res.status(500).json(err); 
+    }
+  }
+
 };

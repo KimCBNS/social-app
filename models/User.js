@@ -17,8 +17,20 @@ const userSchema = new Schema(
       type: String,
       required: true,
       unique: true,
-      validate: [isEmail, 'invalid email'],  // Using validator.js's isEmail functionnpm install validator
+      validate: [isEmail, 'invalid email'],  // Using validator.js's isEmail function (npm install --save validator)
     },
+    thoughts: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Thought'
+    }
+  ],
+    friends: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+      }
+    ]
   },
   {
     // Mongoose supports two Schema options to transform Objects after querying MongoDb: toJSON and toObject.
@@ -31,20 +43,17 @@ const userSchema = new Schema(
 );
 
 // Create a virtual property `commentCount` that gets the amount of comments per user
-// userSchema
-//   .virtual('fullName')
-//   // Getter
-//   .get(function () {
-//     return `${this.first} ${this.last}`;
-//   })
-//   // Setter to set the first and last name
-//   .set(function (v) {
-//     const first = v.split(' ')[0];
-//     const last = v.split(' ')[1];
-//     this.set({ first, last });
-//   });
+userSchema.virtual('friendCount')
+  // Getter
+  // this is the user it retreived
+  .get(function () {
+    return this.friends.length;
+  })
+
+ 
 
 // Initialize our User model
-const User = model('user', userSchema);
+const User = model('User', userSchema);
+
 
 module.exports = User;
