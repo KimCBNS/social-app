@@ -32,6 +32,32 @@ module.exports = {
     }
   },
 
+  async updateUser(req, res) {
+    try {
+      const dbUserData = await User.findOneAndUpdate(
+          { _id: req.params.userId }, // Find user by ID
+          { $set: req.body }, // Update with the data provided in the request body
+          { new: true, runValidators: true } // Return updated data and run validation
+        ); 
+      res.json(dbUserData);
+    } catch (err) {
+      res.status(500).json(err); 
+    }
+  },
+
+
+  async deleteUser(req, res) {
+    try {
+      const dbUserData = await User.findOneAndDelete(
+          { _id: req.params.userId }, // Find user by ID
+          
+        ); 
+      res.json({ message: 'user deleted'});
+    } catch (err) {
+      res.status(500).json(err); 
+    }
+  },
+
   async addFriend(req, res) {
     try {
       const dbUserData = await User.findOneAndUpdate(
