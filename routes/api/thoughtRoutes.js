@@ -2,7 +2,7 @@ const router = require('express').Router();
 const {
   getThoughts,
   createThought,
-  // deleteThought,
+  deleteThought,
 
 } = require('../../controllers/userController.js');
 
@@ -11,6 +11,6 @@ const {
 router.route('/').get(getThoughts); 
 router.route('/:userId').put(createThought); 
 
-// router.route('/:userId/thoughts/:thoughtId').put(deleteThought); // Get all thoughts
+router.route('/:userId/delete/:thoughtId').put(deleteThought); // delete a thought from the user
 
 module.exports = router;

@@ -100,20 +100,21 @@ module.exports = {
   async createThought(req, res) {
     try {
  
-      // const newThought = await Thought.create({
-      //   thoughtText: req.body.thoughtText,
-      //   userName: req.body.userName,
-      //   userId: req.params.userId, // Associating the thought with the user
-      // });
+      const newThought = await Thought.create({
+        thoughtText: req.body.thoughtText,
+        userName: req.body.userName,
+        userId: req.params.userId, // Associating the thought with the user
+      });
 
       console.log(req.params.userId);
+      console.log(newThought);
       const users = req.params.userId;
-      // now add thought id number his to the user thought array
-      // await User.findOneAndUpdate(
-      //   { _id: req.params.userId },
-      //   { $addToSet: { thoughts: newThought._id } },
-      //   { new: true }
-      // );
+      //now add thought id number his to the user thought array
+      await User.findOneAndUpdate(
+        { _id: req.params.userId },
+        { $addToSet: { thoughts: newThought._id } },
+        { new: true }
+      );
       res.json(users);
     } catch (err) {
       res.status(500).json(err);
@@ -122,26 +123,26 @@ module.exports = {
 
  
 
-  // async deleteThought(req, res) {
-  //   try {
-  //     // Delete the thought from the Thoughts collection
-  //     const deletedThought = await Thought.findByIdAndDelete(req.params.thoughtId);
+  async deleteThought(req, res) {
+    try {
+      // Delete the thought from the Thoughts collection
+      const deletedThought = await Thought.findByIdAndDelete(req.params.thoughtId);
   
-  //     // Remove the thought reference from the User's thoughts array
-  //     const dbUserData = await User.findByIdAndUpdate(
-  //       req.params.userId,
-  //       {
-  //         $pull: { thoughts: req.params.thoughtId }
-  //       },
-  //       {
-  //         new: true
-  //       }
-  //     );
-  //     res.json({ message: 'Thought deleted' });
-  //   } catch (err) {
-  //     res.status(500).json(err);
-  //   }
-  // },
+      // Remove the thought reference from the User's thoughts array
+      const dbUserData = await User.findByIdAndUpdate(
+        req.params.userId,
+        {
+          $pull: { thoughts: req.params.thoughtId }
+        },
+        {
+          new: true
+        }
+      );
+      res.json({ message: 'Thought deleted' });
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  },
 
   async getThoughts(req, res) {
     try {
