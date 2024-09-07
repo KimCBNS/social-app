@@ -7,7 +7,6 @@ const {
   deleteUser,
   addFriend,
   deleteFriend,
-  createThought,
 
 } = require('../../controllers/userController.js');
 
@@ -21,9 +20,6 @@ router.route('/:userId/friends/:friendId').put(addFriend);
 router.route('/:userId/friends/:friendId').delete(deleteFriend);
 
 
-//routes to add thoughts (thoughts are unique and have their own ids and data fields)
-router.route('/:userId/thoughts').put(createThought); // Get all thoughts
-//router.route('/:userId/thoughts').post(addThought).get(getUserThoughts); 
 
 
 module.exports = router;
