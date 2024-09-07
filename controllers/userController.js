@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const Thought = require('../models/Thought');  // Import the Thought model
 
 module.exports = {
   async getUsers(req, res) {
@@ -75,6 +76,65 @@ module.exports = {
     } catch (err) {
       res.status(500).json(err); 
     }
+  },
+
+
+  async deleteFriend(req, res) {
+    try {
+      const dbUserData = await User.findOneAndUpdate(
+        {
+          _id: req.params.userId,
+        },
+        {
+          $pull:{friends:req.params.friendId}
+        },
+        {
+          new:true
+        }
+      )
+      res.json({message: 'Friend deleted'});
+    } catch (err) {
+      res.status(500).json(err); 
+    }
+  },
+
+// get the thougths
+async createThought(req, res) {
+  try {
+    console.log("got to this line in getThoughts")
+
+ 
+      const newThought = await Thought.create({
+        thoughtText: req.body.thoughtText,
+        userName: req.body.userName,
+        userId: req.params.userId,  // Associating the thought with the user
+      });
+
+  //     // Optionally update the user's thoughts array
+  //     await User.findOneAndUpdate(
+  //       { _id: req.params.userId },
+  //       { $addToSet: { thoughts: newThought._id } },
+  //       { new: true }
+  //     );
+
+  res.json(newThought);
+    } catch (err) {
+      res.status(500).json(err);
+    }
   }
+
+  // async function addSampleThought() {
+  //   try {
+  //     const newThought = await Thought.create({
+  //       thoughtText: 'This is a sample thought.',
+  //       userName: 'SampleUser',
+  //     });
+  //     console.log('Sample thought added:', newThought);
+  //   } catch (error) {
+  //     console.error('Error adding sample thought:', error);
+  //   }
+  // }
+  
+  // addSampleThought();
 
 };
