@@ -95,7 +95,7 @@ createdAt: Date, default value to the current timestamp, formatted on query.
 ## License
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-VIDEOWALKTHROUGH
+VIDEOWALKTHROUGH: https://www.loom.com/share/80a6c507f51e4397a91eb39f25af96f6
 
 GITHUB: https://github.com/KimCBNS/social-app
 
