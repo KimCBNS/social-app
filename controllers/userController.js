@@ -154,8 +154,32 @@ module.exports = {
       console.error("Error fetching thoughts:", err);
       res.status(500).json({ error: 'An error occurred while fetching thoughts' });
     }
-  }
+  },
 
 
+  async createReaction(req, res) {
+    try {
+ 
+      const newReaction= await Thought.findById(req.params.thoughtId);
+      newReaction.reactions.push(req.body)
+    
+      await newReaction.save()
+      res.json(newReaction);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  },
+
+  async deleteReaction(req, res) {
+    try {
+      // Delete the thought from the Thoughts collection
+      const deletedReaction= await Thought.findById(req.params.thoughtId);
+  deletedReaction.reactions = deletedReaction.reactions.filter(reaction => !reaction.reactionId.equals(req.params.reactionId))
+     await deletedReaction.save();
+      res.json({ message: 'Reaction deleted' });
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  },
 
 };
